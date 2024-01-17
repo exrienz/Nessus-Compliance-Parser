@@ -30,9 +30,10 @@ def process_json_file(json_file_path):
 
     filtered_data = [
         {
-            "Host": entry.get("Host", "").split('-config')[0],  # Filter the Host field
+            "Host": process_host(entry.get("Host", "")),
             "Risk": entry.get("Risk", ""),
-            "Description_Title": entry.get("Description", "").split(':')[0].strip('"')
+            "Description_Title": entry.get("Description", "").split(':')[0].strip('"'),
+            "See_Also": entry.get("See Also", "")
         }
         for entry in json_data
         if entry.get("Risk") == "FAILED"
@@ -42,12 +43,18 @@ def process_json_file(json_file_path):
         {
             "Host": entry["Host"],
             "Risk": entry["Risk"],
-            "Description_Title": entry["Description_Title"].replace("'", "").replace('"', '')
+            "Description_Title": entry["Description_Title"].replace("'", "").replace('"', ''),
+            "See_Also": entry["See_Also"]
         }
         for entry in filtered_data
     ]
 
     return filtered_data_without_quotes
+
+def process_host(host):
+    # Remove everything starting from "-config", ".", or "-2023"
+    host = host.split('-config')[0].split('.')[0].split('-2023')[0]
+    return host
 
 # Get the current working directory
 current_directory = os.getcwd()
@@ -81,9 +88,14 @@ user_input_filename = input("Enter the final CSV filename (without extension): "
 csv_filename = f"{user_input_filename}.csv"
 csv_file_path = os.path.join(current_directory, csv_filename)
 
+# Check if the file already exists and delete it
+if os.path.exists(csv_file_path):
+    os.remove(csv_file_path)
+    print(f"Old file '{csv_filename}' deleted.")
+
 # Writing the combined and unique data to the final CSV file
 with open(csv_file_path, 'w', newline='') as csvfile:
-    fieldnames = ["Host", "Risk", "Description_Title"]
+    fieldnames = ["Host", "Risk", "Description_Title", "See_Also"]
     csvwriter = csv.DictWriter(csvfile, fieldnames=fieldnames)
     
     # Write the header
@@ -93,4 +105,3 @@ with open(csv_file_path, 'w', newline='') as csvfile:
     csvwriter.writerows(combined_data)
 
 print(f"Combined and unique data saved to {csv_filename}")
-
