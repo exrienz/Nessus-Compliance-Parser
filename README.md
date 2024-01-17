@@ -1,6 +1,4 @@
-Great! It looks like you've outlined the basic steps for users to get started with your Nessus Compliance Parser. Now, let's update the README file to provide more detailed instructions on how users can use your project. Below is an updated version of your README:
 
-```markdown
 # Nessus Compliance Parser
 
 Nessus Compliance Parser is a Python script that converts CSV files to JSON and processes the JSON data to filter and generate a final CSV file with combined and unique data.
@@ -24,7 +22,7 @@ Nessus Compliance Parser is a Python script that converts CSV files to JSON and 
 4. Run the script:
 
    ```bash
-   python nessus_compliance_parser.py
+   python ComplianceParser.py
    ```
 
 5. Follow the on-screen prompts:
@@ -34,15 +32,6 @@ Nessus Compliance Parser is a Python script that converts CSV files to JSON and 
 
 6. Find the combined and unique data in the specified final CSV file.
 
-## Example
-
-Assuming you have a CSV file named `example.csv` in the project directory, and you want to generate a final CSV file named `output.csv`, here's an example:
-
-```bash
-python nessus_compliance_parser.py
-```
-
-Enter `output` when prompted for the final CSV filename.
 
 ## Contributing
 
